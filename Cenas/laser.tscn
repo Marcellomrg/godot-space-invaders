@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://ckuf0w7tcrnke"]
+
+[ext_resource type="Script" path="res://Cenas/laser.gd" id="1_3trt1"]
+[ext_resource type="Texture2D" uid="uid://bggjitmo1byod" path="res://Assets Space Invades/Weapons/Laser.png" id="2_yxdv5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_efcul"]
+size = Vector2(1, 7)
+
+[node name="Laser" type="Area2D"]
+collision_layer = 2
+collision_mask = 84
+script = ExtResource("1_3trt1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_yxdv5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_efcul")

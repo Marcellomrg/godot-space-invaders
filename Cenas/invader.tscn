@@ -1,0 +1,111 @@
+[gd_scene load_steps=17 format=3 uid="uid://bm5vndqbisgf5"]
+
+[ext_resource type="Script" path="res://Cenas/invader.gd" id="1_amtlj"]
+[ext_resource type="Texture2D" uid="uid://dy2h5dklc8h7p" path="res://Assets Space Invades/Invaders/Invader1-1.png" id="1_i0q0t"]
+[ext_resource type="Texture2D" uid="uid://dcoy6mphlfi8i" path="res://Assets Space Invades/Invaders/Invader-explosion-2.png" id="1_psv0k"]
+[ext_resource type="Texture2D" uid="uid://b06nkmo0fwryx" path="res://Assets Space Invades/Invaders/Invader1-2.png" id="3_dr5w1"]
+[ext_resource type="Texture2D" uid="uid://bn227mp3yqjlo" path="res://Assets Space Invades/Invaders/Invader2-1.png" id="4_rmmqb"]
+[ext_resource type="Texture2D" uid="uid://gf81hnr41a4c" path="res://Assets Space Invades/Invaders/Invader2-2.png" id="5_0mlwn"]
+[ext_resource type="Texture2D" uid="uid://m4ub6oll4ikv" path="res://Assets Space Invades/Invaders/Invader3-1.png" id="6_urhc0"]
+[ext_resource type="Texture2D" uid="uid://bfg1tahjcdwb4" path="res://Assets Space Invades/Invaders/Invader3-2.png" id="7_lqugy"]
+[ext_resource type="Texture2D" uid="uid://ctu8snp11c12t" path="res://Assets Space Invades/Invaders/Invader-explosion-1.png" id="8_uodww"]
+[ext_resource type="AudioStream" uid="uid://b1iyrxyemgedt" path="res://audio_asset/invaderkilled.wav" id="10_anxoh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p07bt"]
+radius = 4.0
+
+[sub_resource type="Animation" id="Animation_tuu5q"]
+resource_name = "destroy"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("8_uodww"), ExtResource("1_psv0k")]
+}
+
+[sub_resource type="Animation" id="Animation_qxii8"]
+resource_name = "move_1"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("1_i0q0t"), ExtResource("3_dr5w1")]
+}
+
+[sub_resource type="Animation" id="Animation_kv05d"]
+resource_name = "move_2"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("4_rmmqb"), ExtResource("5_0mlwn")]
+}
+
+[sub_resource type="Animation" id="Animation_83cfa"]
+resource_name = "move_3"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("6_urhc0"), ExtResource("7_lqugy")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_48nrt"]
+_data = {
+"destroy": SubResource("Animation_tuu5q"),
+"move_1": SubResource("Animation_qxii8"),
+"move_2": SubResource("Animation_kv05d"),
+"move_3": SubResource("Animation_83cfa")
+}
+
+[node name="Invader" type="Area2D"]
+scale = Vector2(4, 4)
+collision_layer = 4
+collision_mask = 34
+script = ExtResource("1_amtlj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("8_uodww")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_p07bt")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_48nrt")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_anxoh")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
